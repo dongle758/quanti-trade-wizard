@@ -95,7 +95,7 @@ const TradingChart = () => {
                 className="h-8 px-2"
                 onClick={() => setChartType('area')}
               >
-                <AreaChart size={16} className="mr-1" />
+                <AreaChart className="mr-1 size-4" />
                 <span className="sr-only sm:not-sr-only">Area</span>
               </Button>
               <Button 
@@ -104,7 +104,7 @@ const TradingChart = () => {
                 className="h-8 px-2"
                 onClick={() => setChartType('candle')}
               >
-                <CandlestickChart size={16} className="mr-1" />
+                <CandlestickChart className="mr-1 size-4" />
                 <span className="sr-only sm:not-sr-only">Candle</span>
               </Button>
               <Button 
@@ -113,7 +113,7 @@ const TradingChart = () => {
                 className="h-8 px-2"
                 onClick={() => setChartType('line')}
               >
-                <LineChart size={16} className="mr-1" />
+                <LineChart className="mr-1 size-4" />
                 <span className="sr-only sm:not-sr-only">Line</span>
               </Button>
             </div>
@@ -136,10 +136,10 @@ const TradingChart = () => {
             {/* Zoom Controls */}
             <div className="bg-muted/50 rounded-md p-1 flex">
               <Button variant="ghost" size="sm" className="h-8 w-8 px-0">
-                <Minus size={16} />
+                <Minus className="size-4" />
               </Button>
               <Button variant="ghost" size="sm" className="h-8 w-8 px-0">
-                <Plus size={16} />
+                <Plus className="size-4" />
               </Button>
             </div>
           </div>
