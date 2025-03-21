@@ -8,7 +8,7 @@ import {
   BarChart3, CandlestickChart, LineChart, ArrowRightLeft, 
   ArrowDownUp, Timer, Minus, Plus 
 } from 'lucide-react';
-import Card from '@/components/UI/Card';
+import { Card } from '@/components/ui/card';
 import Chip from '@/components/UI/Chip';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -73,7 +73,7 @@ const TradingChart = () => {
   };
   
   return (
-    <Card glass className="relative overflow-hidden" padding="none">
+    <Card className="relative overflow-hidden p-0 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-border/40 rounded-lg">
       {/* Chart Header */}
       <div className="p-6 border-b border-border/40">
         <div className="flex flex-wrap items-center justify-between gap-4">
@@ -95,7 +95,7 @@ const TradingChart = () => {
                 className="h-8 px-2"
                 onClick={() => setChartType('area')}
               >
-                <AreaChart className="mr-1 size-4" />
+                <AreaChart className="mr-1 h-4 w-4" />
                 <span className="sr-only sm:not-sr-only">Area</span>
               </Button>
               <Button 
@@ -104,7 +104,7 @@ const TradingChart = () => {
                 className="h-8 px-2"
                 onClick={() => setChartType('candle')}
               >
-                <CandlestickChart className="mr-1 size-4" />
+                <CandlestickChart className="mr-1 h-4 w-4" />
                 <span className="sr-only sm:not-sr-only">Candle</span>
               </Button>
               <Button 
@@ -113,7 +113,7 @@ const TradingChart = () => {
                 className="h-8 px-2"
                 onClick={() => setChartType('line')}
               >
-                <LineChart className="mr-1 size-4" />
+                <LineChart className="mr-1 h-4 w-4" />
                 <span className="sr-only sm:not-sr-only">Line</span>
               </Button>
             </div>
@@ -136,10 +136,10 @@ const TradingChart = () => {
             {/* Zoom Controls */}
             <div className="bg-muted/50 rounded-md p-1 flex">
               <Button variant="ghost" size="sm" className="h-8 w-8 px-0">
-                <Minus className="size-4" />
+                <Minus className="h-4 w-4" />
               </Button>
               <Button variant="ghost" size="sm" className="h-8 w-8 px-0">
-                <Plus className="size-4" />
+                <Plus className="h-4 w-4" />
               </Button>
             </div>
           </div>

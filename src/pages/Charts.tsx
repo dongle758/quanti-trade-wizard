@@ -3,7 +3,7 @@ import React from 'react';
 import Header from '@/components/Layout/Header';
 import TradingChart from '@/components/Dashboard/TradingChart';
 import { Button } from '@/components/ui/button';
-import Card from '@/components/UI/Card';
+import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { BarChart3, LineChart, CandlestickChart, CalendarDays, Clock } from 'lucide-react';
@@ -68,7 +68,7 @@ const Charts = () => {
           
           {/* Additional Chart Types */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card glass>
+            <Card className="p-6 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-border/40 rounded-lg">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">Volume Profile</h2>
                 <div className="bg-muted/50 rounded-md p-1 flex">
@@ -86,7 +86,7 @@ const Charts = () => {
               </div>
             </Card>
             
-            <Card glass>
+            <Card className="p-6 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-border/40 rounded-lg">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">Market Depth</h2>
                 <div className="bg-muted/50 rounded-md p-1 flex">
@@ -106,7 +106,7 @@ const Charts = () => {
           </div>
           
           {/* Correlation Matrix */}
-          <Card glass>
+          <Card className="p-6 backdrop-blur-md bg-white/70 dark:bg-gray-900/70 border border-border/40 rounded-lg">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-xl font-semibold">Asset Correlation Matrix</h2>
               <Select defaultValue="30d">
