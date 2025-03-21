@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   AreaChart, ResponsiveContainer, Area, XAxis, YAxis, CartesianGrid, Tooltip,
   Legend 
@@ -12,33 +12,9 @@ import { Card } from '@/components/ui/card';
 import Chip from '@/components/UI/Chip';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-
-// Sample data for our chart
-const generateData = () => {
-  const data = [];
-  let value = 43000;
-  
-  for (let i = 0; i < 30; i++) {
-    const date = new Date();
-    date.setDate(date.getDate() - (30 - i));
-    
-    // Create some realistic price movements
-    const change = (Math.random() - 0.5) * 600;
-    value += change;
-    
-    const volume = Math.floor(100000 + Math.random() * 900000);
-    
-    data.push({
-      date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-      price: Math.round(value * 100) / 100,
-      volume
-    });
-  }
-  
-  return data;
-};
-
-const chartData = generateData();
+import { getChartData } from '@/api/marketApi';
+import { ChartDataPoint } from '@/api/types';
+import { useQuery } from '@tanstack/react-query';
 
 // Available timeframes
 const timeframes = [
@@ -62,6 +38,16 @@ const TradingChart = () => {
   const [chartType, setChartType] = useState('area');
   const [timeframe, setTimeframe] = useState('1d');
   const [selectedIndicators, setSelectedIndicators] = useState(['MA']);
+  const [market, setMarket] = useState('btcusd');
+  
+  // Use React Query to fetch chart data
+  const { data: chartResponse, isLoading, error } = useQuery({
+    queryKey: ['chartData', market, timeframe],
+    queryFn: () => getChartData(market, timeframe),
+  });
+
+  // Default to empty array if data isn't available yet
+  const chartData = chartResponse?.success ? chartResponse.data : generateFallbackData();
   
   // Toggle indicator selection
   const toggleIndicator = (indicator: string) => {
@@ -162,90 +148,139 @@ const TradingChart = () => {
         </div>
       </div>
       
+      {/* Loading state for chart */}
+      {isLoading && (
+        <div className="h-[400px] p-4 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading chart data...</p>
+          </div>
+        </div>
+      )}
+      
+      {/* Error state for chart */}
+      {error && (
+        <div className="h-[400px] p-4 flex items-center justify-center">
+          <div className="text-center text-destructive">
+            <p>Failed to load chart data</p>
+            <p className="text-sm text-muted-foreground mt-2">Please try again later</p>
+          </div>
+        </div>
+      )}
+      
       {/* Chart Content */}
-      <div className="h-[400px] p-4">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={chartData}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25}/>
-                <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
-              </linearGradient>
-            </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.4} />
-            <XAxis dataKey="date" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
-            <YAxis
-              tick={{ fontSize: 12 }}
-              domain={['dataMin - 1000', 'dataMax + 1000']}
-              tickFormatter={(value) => `$${value.toLocaleString()}`}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Tooltip
-              formatter={(value: number) => [`$${value.toLocaleString()}`, 'Price']}
-              labelFormatter={(label) => `Date: ${label}`}
-              contentStyle={{
-                backgroundColor: 'hsl(var(--card))',
-                borderColor: 'hsl(var(--border))',
-                borderRadius: 'var(--radius)',
-                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
-              }}
-            />
-            <Area
-              type="monotone"
-              dataKey="price"
-              stroke="hsl(var(--primary))"
-              fillOpacity={1}
-              fill="url(#colorPrice)"
-              strokeWidth={2}
-            />
-            {/* Moving Average line would be added here when selected */}
-            {selectedIndicators.includes('MA') && (
+      {!isLoading && !error && (
+        <div className="h-[400px] p-4">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              data={chartData}
+              margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            >
+              <defs>
+                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.25}/>
+                  <stop offset="95%" stopColor="hsl(var(--primary))" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.4} />
+              <XAxis dataKey="date" tick={{ fontSize: 12 }} tickLine={false} axisLine={false} />
+              <YAxis
+                tick={{ fontSize: 12 }}
+                domain={['dataMin - 1000', 'dataMax + 1000']}
+                tickFormatter={(value) => `$${value.toLocaleString()}`}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip
+                formatter={(value: number) => [`$${value.toLocaleString()}`, 'Price']}
+                labelFormatter={(label) => `Date: ${label}`}
+                contentStyle={{
+                  backgroundColor: 'hsl(var(--card))',
+                  borderColor: 'hsl(var(--border))',
+                  borderRadius: 'var(--radius)',
+                  boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)'
+                }}
+              />
               <Area
                 type="monotone"
                 dataKey="price"
-                stroke="hsl(var(--warning))"
-                strokeDasharray="5 5"
+                stroke="hsl(var(--primary))"
+                fillOpacity={1}
+                fill="url(#colorPrice)"
                 strokeWidth={2}
-                dot={false}
-                activeDot={false}
-                fill="none"
               />
-            )}
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+              {/* Moving Average line would be added here when selected */}
+              {selectedIndicators.includes('MA') && (
+                <Area
+                  type="monotone"
+                  dataKey="price"
+                  stroke="hsl(var(--warning))"
+                  strokeDasharray="5 5"
+                  strokeWidth={2}
+                  dot={false}
+                  activeDot={false}
+                  fill="none"
+                />
+              )}
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
       
       {/* Volume Panel */}
-      <div className="h-[100px] p-4 border-t border-border/40">
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={chartData}
-            margin={{ top: 5, right: 30, left: 0, bottom: 0 }}
-          >
-            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.2} />
-            <XAxis dataKey="date" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
-            <YAxis
-              tick={{ fontSize: 10 }}
-              tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-              axisLine={false}
-              tickLine={false}
-            />
-            <Area
-              type="monotone"
-              dataKey="volume"
-              stroke="hsl(var(--muted-foreground))"
-              fillOpacity={0.5}
-              fill="hsl(var(--muted))"
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
+      {!isLoading && !error && (
+        <div className="h-[100px] p-4 border-t border-border/40">
+          <ResponsiveContainer width="100%" height="100%">
+            <AreaChart
+              data={chartData}
+              margin={{ top: 5, right: 30, left: 0, bottom: 0 }}
+            >
+              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.2} />
+              <XAxis dataKey="date" tick={{ fontSize: 10 }} axisLine={false} tickLine={false} />
+              <YAxis
+                tick={{ fontSize: 10 }}
+                tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Area
+                type="monotone"
+                dataKey="volume"
+                stroke="hsl(var(--muted-foreground))"
+                fillOpacity={0.5}
+                fill="hsl(var(--muted))"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
+        </div>
+      )}
     </Card>
   );
+};
+
+// Helper function to generate fallback data when API fails
+const generateFallbackData = (): ChartDataPoint[] => {
+  const data: ChartDataPoint[] = [];
+  let value = 43000;
+  
+  for (let i = 0; i < 30; i++) {
+    const date = new Date();
+    date.setDate(date.getDate() - (30 - i));
+    
+    // Create some realistic price movements
+    const change = (Math.random() - 0.5) * 600;
+    value += change;
+    
+    const volume = Math.floor(100000 + Math.random() * 900000);
+    
+    data.push({
+      date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+      price: Math.round(value * 100) / 100,
+      volume
+    });
+  }
+  
+  return data;
 };
 
 export default TradingChart;
