@@ -88,4 +88,4 @@ const Stat = ({
   );
 };
 
-export default Stat;
+export  {Stat};
