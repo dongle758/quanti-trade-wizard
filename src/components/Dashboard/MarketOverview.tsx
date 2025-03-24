@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { TrendingUp, TrendingDown, DollarSign, Bitcoin, LineChart, Percent } from 'lucide-react';
-import {Card} from '@/components/UI/Card';
+import Card from '@/components/UI/Card';
 import {Stat} from '@/components/UI/Stat';
 import {Chip} from '@/components/UI/Chip';
 import { getMarketOverview } from '@/api/marketApi';

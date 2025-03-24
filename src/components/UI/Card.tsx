@@ -11,7 +11,7 @@ interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   border?: boolean;
 }
 
-const Card = ({
+export const Card = ({
   children,
   className,
   glass = false,

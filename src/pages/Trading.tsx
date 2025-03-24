@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Chip } from '@/components/UI/Chip';
 import { 
   Bell, UserCircle, Settings, Info, PanelLeftOpen, 
-  ArrowDownUp, AreaChart, LineChart, CandlestickChart 
+  ArrowDownUp, AreaChart, LineChart, CandlestickChart, AlertTriangle 
 } from 'lucide-react';
 
 const Trading = () => {

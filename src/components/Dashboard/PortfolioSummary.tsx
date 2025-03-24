@@ -1,8 +1,9 @@
+
 import React from 'react';
 import { 
   TrendingUp, ArrowDown, ArrowUp, Wallet, AlertCircle, DollarSign 
 } from 'lucide-react';
-import {Card} from '@/components/UI/Card';
+import Card from '@/components/UI/Card';
 import {Chip} from '@/components/UI/Chip';
 import { Progress } from '@/components/ui/progress';
 import { getPortfolioSummary } from '@/api/portfolioApi';

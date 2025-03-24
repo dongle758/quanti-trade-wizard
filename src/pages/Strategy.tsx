@@ -61,7 +61,7 @@ const Strategy = () => {
             </TabsContent>
             
             <TabsContent value="strategies" className="mt-6 animate-fade-in">
-              <Card glass>
+              <Card className="p-6 border border-border/40 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                   <h2 className="text-2xl font-semibold">My Strategies</h2>
                   <div className="flex items-center gap-2">
@@ -149,7 +149,7 @@ const Strategy = () => {
             </TabsContent>
             
             <TabsContent value="history" className="mt-6 animate-fade-in">
-              <Card glass>
+              <Card className="p-6 border border-border/40 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md">
                 <h2 className="text-2xl font-semibold mb-6">Backtest History</h2>
                 
                 <div className="border border-border/40 rounded-md p-6 text-center">
