@@ -18,6 +18,24 @@ export const ENDPOINTS = {
     LIST: '/strategy/list',
     DETAILS: '/strategy/details',
     BACKTEST: '/strategy/backtest',
+  },
+  ORDERS: {
+    LIST: '/orders/list',
+    PLACE: '/orders/place',
+    CANCEL: '/orders/cancel',
+    HISTORY: '/orders/history',
+  },
+  RISK: {
+    PARAMETERS: '/risk/parameters',
+    EXPOSURE: '/risk/exposure',
+    WARNINGS: '/risk/warnings',
+    METRICS: '/risk/metrics',
+    ALLOCATION: '/risk/allocation',
+  },
+  NOTIFICATIONS: {
+    LIST: '/notifications/list',
+    MARK_READ: '/notifications/markRead',
+    SETTINGS: '/notifications/settings',
   }
 };
 

@@ -9,7 +9,7 @@ import {
   ArrowDownUp, Timer, Minus, Plus 
 } from 'lucide-react';
 import { Card } from '@/components/ui/card';
-import {Chip} from '@/components/UI/Chip';
+import { Chip } from '@/components/UI/Chip';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { getChartData } from '@/api/marketApi';

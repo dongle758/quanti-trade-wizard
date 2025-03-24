@@ -3,8 +3,8 @@ import React from 'react';
 import Header from '@/components/Layout/Header';
 import StrategyBuilder from '@/components/Dashboard/StrategyBuilder';
 import { Button } from '@/components/ui/button';
-import {Card} from '@/components/UI/Card';
-import {Chip} from '@/components/UI/Chip';
+import { Card } from '@/components/ui/card';
+import { Chip } from '@/components/UI/Chip';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { 
   Table, TableBody, TableCaption, TableCell, 
